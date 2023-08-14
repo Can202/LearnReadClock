@@ -23,6 +23,8 @@ class Game:
         self.btn2 = objects.Button(pygame.Vector2(950,200), _text="As2")
         self.btn3 = objects.Button(pygame.Vector2(5,500), _text="As3")
         self.btn4 = objects.Button(pygame.Vector2(950,500), _text="As4")
+        self.mouseposX = 0
+        self.mouseposY = 0
 
         self.deltaTime = 0
 
@@ -37,6 +39,12 @@ class Game:
                     self.running = False
                 if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.FINGERDOWN:
                     self.mousepressed = True
+
+                    if event.type == pygame.FINGERDOWN:
+                        self.mouseposX = event.x * constant.WIDTH
+                        self.mouseposY = event.y * constant.HEIGHT
+                    else:
+                        self.mouseposX, self.mouseposY = (0, 0)
                 else:
                     self.mousepressed = False
             # Your game logic and drawing code go here
@@ -52,10 +60,10 @@ class Game:
         self.minuteHand.update(self.deltaTime)
         self.hourHand.update(self.deltaTime)
 
-        self.btn1.update(self.deltaTime, self.mousepressed)
-        self.btn2.update(self.deltaTime, self.mousepressed)
-        self.btn3.update(self.deltaTime, self.mousepressed)
-        self.btn4.update(self.deltaTime, self.mousepressed)
+        self.btn1.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY)
+        self.btn2.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY)
+        self.btn3.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY)
+        self.btn4.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY)
 
         self.return_angle_by_hour(7, 45)
         self.screenfix()
