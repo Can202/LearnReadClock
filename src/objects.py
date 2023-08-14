@@ -3,6 +3,7 @@ import constant
 import image
 
 import math
+import random
 
 pygame.font.init()
 
@@ -78,10 +79,12 @@ class Button(Node):
             self.image = image.BTN_HOVER
             if mousepressed:
                 self.image = image.BTN_PRESSED
+                self.get_pressed = True
         elif (self.rect.left < mouseposX < self.rect.right) and (self.rect.top < mouseposY < self.rect.bottom):
             self.image = image.BTN_HOVER
             if mousepressed:
                 self.image = image.BTN_PRESSED
+                self.get_pressed = True
         else:
             self.image = image.BTN
     
@@ -144,3 +147,54 @@ class MovementBySin:
         self.angle += 90 * deltaTime
         self.angle_in_radians = self.angle * (math.pi / 180)
         self.sin = math.sin(self.angle_in_radians)
+
+class Hour:
+    def __init__(self) -> None:
+        self.hour = random.randint(1,12)
+        self.minutes = _minutes = random.randint(0,11) * 5
+    def getTuple(self):
+        return (self.hour, self.minutes)
+    def newSet(self):
+        self.hour = random.randint(1,12)
+        self.minutes = _minutes = random.randint(0,11) * 5
+    def getStrHour(self):
+        
+        texth = str(self.hour).zfill(2)
+        mid = ":"
+
+        if self.minutes == 0:
+            texth = str(self.hour)
+            mid = ""
+            textm = " en punto"
+        elif self.minutes == 15:
+            texth = str(self.hour)
+            mid = ""
+            textm = " y un cuarto"
+        elif self.minutes == 30:
+            texth = str(self.hour)
+            mid = ""
+            textm = " y media"
+        elif self.minutes == 45:
+            texth = "15 minutos para "
+            if self.hour == 1:
+                mid = "la "
+            else:
+                mid = "las "
+            textm = str(self.hour + 1)
+        elif self.minutes == 50:
+            texth = "10 minutos para "
+            if self.hour == 1:
+                mid = "la "
+            else:
+                mid = "las "
+            textm = str(self.hour + 1)
+        elif self.minutes == 55:
+            texth = "5 minutos para "
+            if (self.hour) == 12:
+                mid = "la "
+            else:
+                mid = "las "
+            textm = str(self.hour + 1)
+        else:
+            textm = str(self.minutes).zfill(2)
+        return texth + mid + textm

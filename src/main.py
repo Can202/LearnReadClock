@@ -2,6 +2,8 @@ import pygame
 import constant
 import image
 import objects
+import random
+
 
 pygame.init()
 
@@ -26,6 +28,19 @@ class Game:
         self.mouseposX = 0
         self.mouseposY = 0
 
+        
+        self.shuffle = True
+        self.correctbtnnumber = random.randint(1,4)
+        self.correctbtn = objects.Hour()
+
+        self.otherbtn1 = objects.Hour()
+        self.otherbtn2 = objects.Hour() 
+        self.otherbtn3 = objects.Hour() 
+
+        self.good = 0
+
+
+
         self.deltaTime = 0
 
         self.fix = 1
@@ -47,7 +62,6 @@ class Game:
                         self.mouseposX, self.mouseposY = (0, 0)
                 else:
                     self.mousepressed = False
-            # Your game logic and drawing code go here
             self.keys = pygame.key.get_pressed()
             self.update()
             self.draw()
@@ -55,6 +69,50 @@ class Game:
             self.deltaTime = self.clock.tick(60) / 1000.0
             pygame.display.update()
     def update(self):
+        if self.shuffle:
+            self.correctbtn.newSet()
+            self.otherbtn1.newSet()
+            self.otherbtn2.newSet()
+            self.otherbtn3.newSet()
+            while self.otherbtn1.getTuple() == self.correctbtn.getTuple():
+                self.otherbtn1.newSet()
+            while self.otherbtn2.getTuple() == self.correctbtn.getTuple():
+                self.otherbtn2.newSet()
+            while self.otherbtn3.getTuple() == self.correctbtn.getTuple():
+                self.otherbtn3.newSet()
+            self.otherbtn2.newSet()
+            self.otherbtn3.newSet()
+            self.shuffle = False
+            print("Happen")
+
+
+        if self.correctbtnnumber == 1:
+            self.btn1.text.text = self.correctbtn.getStrHour()
+
+            self.btn2.text.text = self.otherbtn1.getStrHour()
+            self.btn3.text.text = self.otherbtn2.getStrHour()
+            self.btn4.text.text = self.otherbtn3.getStrHour()
+        elif self.correctbtnnumber == 2:
+            self.btn2.text.text = self.correctbtn.getStrHour()
+
+            self.btn1.text.text = self.otherbtn1.getStrHour()
+            self.btn3.text.text = self.otherbtn2.getStrHour()
+            self.btn4.text.text = self.otherbtn3.getStrHour()
+        elif self.correctbtnnumber == 3:
+            self.btn3.text.text = self.correctbtn.getStrHour()
+
+            self.btn1.text.text = self.otherbtn1.getStrHour()
+            self.btn2.text.text = self.otherbtn2.getStrHour()
+            self.btn4.text.text = self.otherbtn3.getStrHour()
+        elif self.correctbtnnumber == 4:
+            self.btn4.text.text = self.correctbtn.getStrHour()
+
+            self.btn1.text.text = self.otherbtn1.getStrHour()
+            self.btn2.text.text = self.otherbtn2.getStrHour()
+            self.btn3.text.text = self.otherbtn3.getStrHour()
+
+        self.return_angle_by_hour(self.correctbtn.hour, self.correctbtn.minutes)
+
         self.background.update(self.deltaTime)
         self.clockOnScreen.update(self.deltaTime)
         self.minuteHand.update(self.deltaTime)
@@ -65,8 +123,13 @@ class Game:
         self.btn3.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY)
         self.btn4.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY)
 
-        self.return_angle_by_hour(7, 45)
+        if self.btn1.get_pressed:
+            self.shuffle = True
+            self.btn1.get_pressed = False
+        
         self.screenfix()
+
+
 
     def draw(self):
         self.window.fill((0, 0, 0))
