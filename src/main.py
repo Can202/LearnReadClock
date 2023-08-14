@@ -8,7 +8,7 @@ pygame.init()
 class Game:
     def __init__(self) -> None:
 
-        self.window = pygame.display.set_mode((constant.WIDTH, constant.HEIGHT))
+        self.window = pygame.display.set_mode((constant.WIDTH, constant.HEIGHT), pygame.RESIZABLE)
         pygame.display.set_caption("Game")
 
         self.clock = pygame.time.Clock()
@@ -33,17 +33,35 @@ class Game:
             self.deltaTime = self.clock.tick(60) / 1000.0
             pygame.display.update()
     def update(self):
+        self.screenfix()
         self.background.update(self.deltaTime)
         self.clockOnScreen.update(self.deltaTime)
         self.minuteHand.update(self.deltaTime)
         self.hourHand.update(self.deltaTime)
+
+        self.return_angle_by_hour(7, 45)
+
     def draw(self):
         self.window.fill((0, 0, 0))
-        self.background.draw(self.window)
-        self.clockOnScreen.draw(self.window)
-        self.minuteHand.draw(self.window)
-        self.hourHand.draw(self.window)
+        self.background.draw(self.window, self.fix)
+        self.clockOnScreen.draw(self.window, self.fix)
+        self.minuteHand.draw(self.window, self.fix)
+        self.hourHand.draw(self.window, self.fix)
 
+    def return_angle_by_hour(self, hour, minutes):
+        if hour == 12:
+            hour = 0
+        
+        self.hourHand.rotation = 360 - ((30 * hour) + (minutes * (30 / 60)))
+        self.minuteHand.rotation = 360 - (30 * (minutes / 5))
+
+    
+    def screenfix(self):
+        self.fixy = (self.window.get_height() / constant.HEIGHT)
+        self.fix = (self.window.get_width() / constant.WIDTH)
+        self.current_width = self.window.get_width()
+        self.current_height = self.window.get_height()
+        
 
 if __name__ == "__main__":
     game = Game()

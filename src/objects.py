@@ -13,8 +13,12 @@ class Node:
     def update(self, deltaTime):
         self.velocity += self.acceleration * deltaTime
         self.position += self.velocity * deltaTime
-    def draw(self, screen):
-        screen.blit(self.image, self.position)
+    def draw(self, screen, fix = 1):
+        if fix == 1:
+            screen.blit(self.image, self.position)
+        else:
+            self.timage = image.resize(self.image, self.image.get_width() * fix, self.image.get_height() * fix)
+            screen.blit(self.timage, self.position * fix)    
 
 class Hand(Node):
     def __init__(self, _position=pygame.Vector2(0, 0), _image=image.CLOCK, _size = 0, _rotspeed = 45) -> None:
@@ -26,9 +30,12 @@ class Hand(Node):
         self.size = _size
         self.offset = pygame.Vector2(0,0)
     def update(self, deltaTime):
+        super().update(deltaTime)
+        # self.rotation += self.rotation_speed * deltaTime
+
         self.image = pygame.transform.rotate(self.real_image, self.rotation)
         self.rotated_rect = self.image.get_rect(center=(constant.WIDTH // 2, constant.HEIGHT // 2))
-        self.rotation += self.rotation_speed * deltaTime
+        
         if self.rotation < 90:
             self.offset.y = self.position.y - self.rotated_rect.bottom
             self.offset.x = self.position.x - self.rotated_rect.right
@@ -43,10 +50,13 @@ class Hand(Node):
             self.offset.x = (self.position.x - self.rotated_rect.left) - self.size
         else:
             self.rotation = 0
-        print(self.rotated_rect.bottomright)
-        super().update(deltaTime)
-    def draw(self, screen):
-        screen.blit(self.image, self.rotated_rect.topleft + self.offset)
+    def draw(self, screen, fix = 1):
+        if fix == 1:
+            screen.blit(self.image, self.rotated_rect.topleft + self.offset)
+        else:
+            self.timage = image.resize(self.image, self.image.get_width() * fix, self.image.get_height() * fix)
+            screen.blit(self.timage, (self.rotated_rect.topleft + self.offset) * fix)  
+        
 
 class Background(Node):
     def __init__(self) -> None:
