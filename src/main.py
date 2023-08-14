@@ -29,11 +29,16 @@ class Game:
         self.fix = 1
         self.fixx = 1
         self.fixy = 1
+        self.mousepressed = False
     def mainloop(self):
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
+                if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.FINGERDOWN:
+                    self.mousepressed = True
+                else:
+                    self.mousepressed = False
             # Your game logic and drawing code go here
             self.keys = pygame.key.get_pressed()
             self.update()
@@ -47,10 +52,10 @@ class Game:
         self.minuteHand.update(self.deltaTime)
         self.hourHand.update(self.deltaTime)
 
-        self.btn1.update(self.deltaTime)
-        self.btn2.update(self.deltaTime)
-        self.btn3.update(self.deltaTime)
-        self.btn4.update(self.deltaTime)
+        self.btn1.update(self.deltaTime, self.mousepressed)
+        self.btn2.update(self.deltaTime, self.mousepressed)
+        self.btn3.update(self.deltaTime, self.mousepressed)
+        self.btn4.update(self.deltaTime, self.mousepressed)
 
         self.return_angle_by_hour(7, 45)
         self.screenfix()

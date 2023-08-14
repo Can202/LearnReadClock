@@ -66,8 +66,9 @@ class Button(Node):
                  _text = "no text given") -> None:
         super().__init__(_position, _image)
         self.text = Text(_text, _position + pygame.Vector2(30,50))
+        self.get_pressed = False
     
-    def update(self, deltaTime):
+    def update(self, deltaTime, mousepressed = False):
         super().update(deltaTime)
         self.rect = self.image.get_rect()
         self.rect.left += self.position.x
@@ -75,6 +76,8 @@ class Button(Node):
         mouse_position_X, mouse_position_Y = pygame.mouse.get_pos()
         if (self.rect.left < mouse_position_X < self.rect.right) and (self.rect.top < mouse_position_Y < self.rect.bottom):
             self.image = image.BTN_HOVER
+            if mousepressed:
+                self.image = image.BTN_PRESSED
         else:
             self.image = image.BTN
     
