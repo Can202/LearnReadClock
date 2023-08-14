@@ -38,7 +38,16 @@ class Game:
         self.otherbtn3 = objects.Hour() 
 
         self.good = 0
+        self.timegood = objects.Timer(2)
+        self.ticketonScreen = objects.Node(
+            pygame.Vector2((constant.WIDTH - image.TICKET.get_width())/2, constant.HEIGHT),
+            image.TICKET)
+        self.ticketanimation = False
 
+        self.erroronScreen = objects.Node(
+            pygame.Vector2((constant.WIDTH - image.ERROR.get_width())/2, constant.HEIGHT),
+            image.ERROR)
+        self.erroranimation = False
 
 
         self.deltaTime = 0
@@ -116,6 +125,8 @@ class Game:
 
         self.background.update(self.deltaTime)
         self.clockOnScreen.update(self.deltaTime)
+        self.ticketonScreen.update(self.deltaTime)
+        self.erroronScreen.update(self.deltaTime)
         self.minuteHand.update(self.deltaTime)
         self.hourHand.update(self.deltaTime)
 
@@ -125,24 +136,69 @@ class Game:
         self.btn4.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY)
 
         if self.btn1.get_pressed:
-            if self.correctbtnnumber == 1:
-                self.shuffle = True
+            if self.timegood.time == 0:
+                if self.correctbtnnumber == 1:
+                    self.good = 1
+                else:
+                    self.good = -1
             self.btn1.get_pressed = False
         elif self.btn2.get_pressed:
-            if self.correctbtnnumber == 2:
-                self.shuffle = True
+            if self.timegood.time == 0:
+                if self.correctbtnnumber == 2:
+                    self.good = 1
+                else:
+                    self.good = -1
             self.btn2.get_pressed = False
         elif self.btn3.get_pressed:
-            if self.correctbtnnumber == 3:
-                self.shuffle = True
+            if self.timegood.time == 0:
+                if self.correctbtnnumber == 3:
+                    self.good = 1
+                else:
+                    self.good = -1
             self.btn3.get_pressed = False
         elif self.btn4.get_pressed:
-            if self.correctbtnnumber == 4:
-                self.shuffle = True
+            if self.timegood.time == 0:
+                if self.correctbtnnumber == 4:
+                    self.good = 1
+                else:
+                    self.good = -1
             self.btn4.get_pressed = False
         
+        if self.good == 1:
+            self.shuffle = True
+            self.timegood.timing = True
+            self.good = 0
+            self.ticketanimation = True
+        elif self.good == -1:
+            self.timegood.timing = True
+            self.good = 0
+            self.erroranimation = True
+
+        if self.ticketanimation:
+            if self.timegood.time < .5:
+                self.ticketonScreen.position.y -= (constant.HEIGHT + image.TICKET.get_height()) * self.deltaTime
+            if self.timegood.time > 1.5:
+                self.ticketonScreen.position.y += (constant.HEIGHT + image.TICKET.get_height()) * self.deltaTime
+        
+        if self.erroranimation:
+            if self.timegood.time < .5:
+                self.erroronScreen.position.y -= (constant.HEIGHT + image.ERROR.get_height()) * self.deltaTime
+            if self.timegood.time > 1.5:
+                self.erroronScreen.position.y += (constant.HEIGHT + image.ERROR.get_height()) * self.deltaTime
+        if self.timegood.timing == False:
+            self.ticketonScreen.position.y = constant.HEIGHT
+            self.ticketanimation = False
+            self.erroronScreen.position.y = constant.HEIGHT
+            self.erroranimation = False
+
+            
+            
+        
+
+
         self.screenfix()
-        print(self.correctbtn.getTuple())
+        self.timegood.update(self.deltaTime)
+        print(self.timegood.time)
 
 
 
@@ -152,6 +208,8 @@ class Game:
         self.clockOnScreen.draw(self.window, self.fix)
         self.minuteHand.draw(self.window, self.fix)
         self.hourHand.draw(self.window, self.fix)
+        self.ticketonScreen.draw(self.window,self.fix)
+        self.erroronScreen.draw(self.window,self.fix)
 
         self.btn1.draw(self.window, self.fix)
         self.btn2.draw(self.window, self.fix)
