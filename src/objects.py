@@ -176,25 +176,34 @@ class Hour:
             textm = " y media"
         elif self.minutes == 45:
             texth = "15 minutos para "
-            if self.hour == 1:
+            if self.hour == 12:
                 mid = "la "
             else:
                 mid = "las "
-            textm = str(self.hour + 1)
+            if self.hour == 12:
+                textm = "1"
+            else:
+                textm = str(self.hour + 1)
         elif self.minutes == 50:
             texth = "10 minutos para "
-            if self.hour == 1:
+            if self.hour == 12:
                 mid = "la "
             else:
                 mid = "las "
-            textm = str(self.hour + 1)
+            if self.hour == 12:
+                textm = "1"
+            else:
+                textm = str(self.hour + 1)
         elif self.minutes == 55:
             texth = "5 minutos para "
             if (self.hour) == 12:
                 mid = "la "
             else:
                 mid = "las "
-            textm = str(self.hour + 1)
+            if self.hour == 12:
+                textm = "1"
+            else:
+                textm = str(self.hour + 1)
         else:
             textm = str(self.minutes).zfill(2)
         return texth + mid + textm

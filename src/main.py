@@ -70,6 +70,7 @@ class Game:
             pygame.display.update()
     def update(self):
         if self.shuffle:
+            self.correctbtnnumber = random.randint(1,4)
             self.correctbtn.newSet()
             self.otherbtn1.newSet()
             self.otherbtn2.newSet()
@@ -124,10 +125,24 @@ class Game:
         self.btn4.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY)
 
         if self.btn1.get_pressed:
-            self.shuffle = True
+            if self.correctbtnnumber == 1:
+                self.shuffle = True
             self.btn1.get_pressed = False
+        elif self.btn2.get_pressed:
+            if self.correctbtnnumber == 2:
+                self.shuffle = True
+            self.btn2.get_pressed = False
+        elif self.btn3.get_pressed:
+            if self.correctbtnnumber == 3:
+                self.shuffle = True
+            self.btn3.get_pressed = False
+        elif self.btn4.get_pressed:
+            if self.correctbtnnumber == 4:
+                self.shuffle = True
+            self.btn4.get_pressed = False
         
         self.screenfix()
+        print(self.correctbtn.getTuple())
 
 
 
@@ -148,6 +163,9 @@ class Game:
             hour = 0
         
         self.hourHand.rotation = 360 - ((30 * hour) + (minutes * (30 / 60)))
+
+        if minutes == 0:
+            minutes = 60
         self.minuteHand.rotation = 360 - (30 * (minutes / 5))
 
     
