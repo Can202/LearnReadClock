@@ -13,11 +13,11 @@ class Node:
     def update(self, deltaTime):
         self.velocity += self.acceleration * deltaTime
         self.position += self.velocity * deltaTime
-    def draw(self, screen, fix = 1):
+    def draw(self, screen, fix:float = 1.0):
         if fix == 1:
             screen.blit(self.image, self.position)
         else:
-            self.timage = image.resize(self.image, self.image.get_width() * fix, self.image.get_height() * fix)
+            self.timage = image.resize(self.image, int(self.image.get_width() * fix), int(self.image.get_height() * fix))
             screen.blit(self.timage, self.position * fix)    
 
 class Hand(Node):
@@ -50,11 +50,11 @@ class Hand(Node):
             self.offset.x = (self.position.x - self.rotated_rect.left) - self.size
         else:
             self.rotation = 0
-    def draw(self, screen, fix = 1):
+    def draw(self, screen, fix:float = 1.0):
         if fix == 1:
             screen.blit(self.image, self.rotated_rect.topleft + self.offset)
         else:
-            self.timage = image.resize(self.image, self.image.get_width() * fix, self.image.get_height() * fix)
+            self.timage = image.resize(self.image, int(self.image.get_width() * fix), int(self.image.get_height() * fix))
             screen.blit(self.timage, (self.rotated_rect.topleft + self.offset) * fix)  
         
 
