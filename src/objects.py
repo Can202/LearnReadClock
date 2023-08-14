@@ -4,6 +4,8 @@ import image
 
 import math
 
+pygame.font.init()
+
 class Node:
     def __init__(self, _position = pygame.Vector2(0, 0), _image = image.CLOCK) -> None:
         self.position = _position
@@ -57,6 +59,38 @@ class Hand(Node):
             self.timage = image.resize(self.image, int(self.image.get_width() * fix), int(self.image.get_height() * fix))
             screen.blit(self.timage, (self.rotated_rect.topleft + self.offset) * fix)  
         
+class Button(Node):
+    def __init__(self,
+                 _position=pygame.Vector2(0, 0),
+                 _image=image.BTN,
+                 _text = "no text given") -> None:
+        super().__init__(_position, _image)
+        self.text = Text(_text, _position + pygame.Vector2(30,50))
+    
+    def update(self, deltaTime):
+        super().update(deltaTime)
+    
+    def draw(self, screen, fix: float = 1):
+        super().draw(screen, fix)
+        self.text.draw(screen,fix)
+
+class Text():
+    def __init__(self, 
+        _text = "A",
+        _position = pygame.Vector2(0,0)) -> None:
+        self.text = _text
+        self.position = _position
+        self.font = image.NORMAL_FONT
+
+    def draw(self, screen, fix: float = 1):
+        if fix == 1:
+            text_surface = self.font.render(self.text, True, constant.BLACK)
+            screen.blit(text_surface, self.position)
+        else:
+            self.font = pygame.font.Font(None, int(36*fix))
+            text_surface = self.font.render(self.text, True, constant.BLACK)
+            screen.blit(text_surface, (self.position * fix))
+
 
 class Background(Node):
     def __init__(self) -> None:

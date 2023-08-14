@@ -19,6 +19,11 @@ class Game:
         self.hourHand = objects.Hand(pygame.Vector2((constant.WIDTH + 22)/2, (constant.HEIGHT + 120)/2), image.HOUR, 22, 7.5)
         self.background = objects.Background()
 
+        self.btn1 = objects.Button(pygame.Vector2(5,200), _text="As")
+        self.btn2 = objects.Button(pygame.Vector2(950,200), _text="As2")
+        self.btn3 = objects.Button(pygame.Vector2(5,500), _text="As3")
+        self.btn4 = objects.Button(pygame.Vector2(950,500), _text="As4")
+
         self.deltaTime = 0
 
         self.fix = 1
@@ -51,6 +56,11 @@ class Game:
         self.clockOnScreen.draw(self.window, self.fix)
         self.minuteHand.draw(self.window, self.fix)
         self.hourHand.draw(self.window, self.fix)
+
+        self.btn1.draw(self.window, self.fix)
+        self.btn2.draw(self.window, self.fix)
+        self.btn3.draw(self.window, self.fix)
+        self.btn4.draw(self.window, self.fix)
 
     def return_angle_by_hour(self, hour, minutes):
         if hour == 12:
