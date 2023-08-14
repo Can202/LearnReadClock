@@ -20,6 +20,10 @@ class Game:
         self.background = objects.Background()
 
         self.deltaTime = 0
+
+        self.fix = 1
+        self.fixx = 1
+        self.fixy = 1
     def mainloop(self):
         while self.running:
             for event in pygame.event.get():
@@ -33,13 +37,13 @@ class Game:
             self.deltaTime = self.clock.tick(60) / 1000.0
             pygame.display.update()
     def update(self):
-        self.screenfix()
         self.background.update(self.deltaTime)
         self.clockOnScreen.update(self.deltaTime)
         self.minuteHand.update(self.deltaTime)
         self.hourHand.update(self.deltaTime)
 
         self.return_angle_by_hour(7, 45)
+        self.screenfix()
 
     def draw(self):
         self.window.fill((0, 0, 0))
