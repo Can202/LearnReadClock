@@ -57,8 +57,8 @@ class Game:
 
     
     def screenfix(self):
-        self.fixy = (self.window.get_height() / constant.HEIGHT)
-        self.fix = (self.window.get_width() / constant.WIDTH)
+        self.fix = (self.window.get_height() / constant.HEIGHT)
+        self.fixx = (self.window.get_width() / constant.WIDTH)
         self.current_width = self.window.get_width()
         self.current_height = self.window.get_height()
         
