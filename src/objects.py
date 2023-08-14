@@ -95,18 +95,20 @@ class Button(Node):
 class Text():
     def __init__(self, 
         _text = "A",
-        _position = pygame.Vector2(0,0)) -> None:
+        _position = pygame.Vector2(0,0),
+        _color = constant.BLACK) -> None:
         self.text = _text
         self.position = _position
         self.font = image.NORMAL_FONT
+        self.color = _color
 
     def draw(self, screen, fix: float = 1):
         if fix == 1:
-            text_surface = self.font.render(self.text, True, constant.BLACK)
+            text_surface = self.font.render(self.text, True, self.color)
             screen.blit(text_surface, self.position)
         else:
             self.font = pygame.font.Font(None, int(36*fix))
-            text_surface = self.font.render(self.text, True, constant.BLACK)
+            text_surface = self.font.render(self.text, True, self.color)
             screen.blit(text_surface, (self.position * fix))
 
 

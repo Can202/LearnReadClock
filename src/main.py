@@ -37,6 +37,10 @@ class Game:
         self.otherbtn2 = objects.Hour() 
         self.otherbtn3 = objects.Hour() 
 
+        self.goods = 0
+        self.goodstext = objects.Text(str(self.goods),
+                                      pygame.Vector2(constant.WIDTH-20,10),
+                                      constant.GREEN)
         self.good = 0
         self.timegood = objects.Timer(2)
         self.ticketonScreen = objects.Node(
@@ -93,7 +97,6 @@ class Game:
             self.otherbtn2.newSet()
             self.otherbtn3.newSet()
             self.shuffle = False
-            print("Happen")
 
 
         if self.correctbtnnumber == 1:
@@ -129,6 +132,7 @@ class Game:
         self.erroronScreen.update(self.deltaTime)
         self.minuteHand.update(self.deltaTime)
         self.hourHand.update(self.deltaTime)
+        self.goodstext.text = str(self.goods)
 
         self.btn1.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY)
         self.btn2.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY)
@@ -167,6 +171,7 @@ class Game:
         if self.good == 1:
             self.shuffle = True
             self.timegood.timing = True
+            self.goods += 1
             self.good = 0
             self.ticketanimation = True
         elif self.good == -1:
@@ -198,7 +203,6 @@ class Game:
 
         self.screenfix()
         self.timegood.update(self.deltaTime)
-        print(self.timegood.time)
 
 
 
@@ -210,6 +214,7 @@ class Game:
         self.hourHand.draw(self.window, self.fix)
         self.ticketonScreen.draw(self.window,self.fix)
         self.erroronScreen.draw(self.window,self.fix)
+        self.goodstext.draw(self.window, self.fix)
 
         self.btn1.draw(self.window, self.fix)
         self.btn2.draw(self.window, self.fix)
