@@ -17,12 +17,12 @@ class Node:
         screen.blit(self.image, self.position)
 
 class Hand(Node):
-    def __init__(self, _position=pygame.Vector2(0, 0), _image=image.CLOCK, _size = 0) -> None:
+    def __init__(self, _position=pygame.Vector2(0, 0), _image=image.CLOCK, _size = 0, _rotspeed = 45) -> None:
         super().__init__(_position, _image)
         self.real_image = self.image
         self.original_rect = self.real_image.get_rect(center=(constant.WIDTH // 2, constant.HEIGHT // 2))
         self.rotation = 0
-        self.rotation_speed = 45
+        self.rotation_speed = _rotspeed
         self.size = _size
         self.offset = pygame.Vector2(0,0)
     def update(self, deltaTime):
