@@ -47,6 +47,11 @@ class Game:
         self.minuteHand.update(self.deltaTime)
         self.hourHand.update(self.deltaTime)
 
+        self.btn1.update(self.deltaTime)
+        self.btn2.update(self.deltaTime)
+        self.btn3.update(self.deltaTime)
+        self.btn4.update(self.deltaTime)
+
         self.return_angle_by_hour(7, 45)
         self.screenfix()
 

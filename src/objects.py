@@ -69,6 +69,14 @@ class Button(Node):
     
     def update(self, deltaTime):
         super().update(deltaTime)
+        self.rect = self.image.get_rect()
+        self.rect.left += self.position.x
+        self.rect.top += self.position.y
+        mouse_position_X, mouse_position_Y = pygame.mouse.get_pos()
+        if (self.rect.left < mouse_position_X < self.rect.right) and (self.rect.top < mouse_position_Y < self.rect.bottom):
+            self.image = image.BTN_HOVER
+        else:
+            self.image = image.BTN
     
     def draw(self, screen, fix: float = 1):
         super().draw(screen, fix)
