@@ -50,19 +50,21 @@ class Game:
             self.keys = pygame.key.get_pressed()
 
 
-            self.mainGame.mainloop(self.fix, self.offset,
-                                   self.deltaTime,
-                                   self.mouseposX, self.mouseposY,
-                                   self.mousepressed)
+            if self.mainGame.running:
+                self.mainGame.mainloop(self.fix, self.offset,
+                                    self.deltaTime,
+                                    self.mouseposX, self.mouseposY,
+                                    self.mousepressed)
 
             self.screenfix()
             self.deltaTime = self.clock.tick(60) / 1000.0
 
 
             self.window.fill((0, 0, 0))
-            self.window.blit(pygame.transform.scale(
-                self.mainGame.screen, (int(constant.WIDTH*self.fix), int(constant.HEIGHT*self.fix))), 
-                self.offset)
+            if self.mainGame.running:
+                self.window.blit(pygame.transform.scale(
+                    self.mainGame.screen, (int(constant.WIDTH*self.fix), int(constant.HEIGHT*self.fix))), 
+                    self.offset)
 
             pygame.display.update()
     
@@ -80,6 +82,8 @@ class Game:
 
 class GameLogic:
     def __init__(self) -> None:
+
+        self.running = True
         
         self.screen = pygame.Surface((constant.WIDTH, constant.HEIGHT))
 
