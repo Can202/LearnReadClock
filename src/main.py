@@ -69,8 +69,6 @@ class Game:
 
         self.xoffset = 0
         self.fix = 1
-        self.fixx = 1
-        self.fixy = 1
         self.mousepressed = False
     def mainloop(self):
         while self.running:
@@ -204,16 +202,16 @@ class Game:
             self.erroranimation = True
 
         if self.ticketanimation:
-            if self.timegood.time < .5:
-                self.ticketonScreen.position.y -= (constant.HEIGHT + 252) * self.deltaTime
-            if self.timegood.time > 1.5:
-                self.ticketonScreen.position.y += (constant.HEIGHT + 252) * self.deltaTime
+            if self.timegood.time < .7:
+                self.ticketonScreen.position.y -= (constant.HEIGHT + 252) * self.deltaTime / 1.4
+            if self.timegood.time > 1.3:
+                self.ticketonScreen.position.y += (constant.HEIGHT + 252) * self.deltaTime / 1.4
         
         if self.erroranimation:
-            if self.timegood.time < .5:
-                self.erroronScreen.position.y -= (constant.HEIGHT + 290) * self.deltaTime
-            if self.timegood.time > 1.5:
-                self.erroronScreen.position.y += (constant.HEIGHT + 290) * self.deltaTime
+            if self.timegood.time < .7:
+                self.erroronScreen.position.y -= (constant.HEIGHT + 290) * self.deltaTime / 1.4
+            if self.timegood.time > 1.3:
+                self.erroronScreen.position.y += (constant.HEIGHT + 290) * self.deltaTime / 1.4
         if self.timegood.timing == False:
             self.ticketonScreen.position.y = constant.HEIGHT
             self.ticketanimation = False
