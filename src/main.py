@@ -12,6 +12,7 @@ class Game:
     def __init__(self) -> None:
 
         self.window = pygame.display.set_mode((constant.WIDTH, constant.HEIGHT), pygame.RESIZABLE)
+        self.screen = pygame.Surface((constant.WIDTH, constant.HEIGHT))
         pygame.display.set_caption("Game")
 
         self.clock = pygame.time.Clock()
@@ -231,21 +232,23 @@ class Game:
 
     def draw(self):
         self.window.fill((0, 0, 0))
-        self.background.draw(self.window, self.fix, self.xoffset)
-        self.clockOnScreen.draw(self.window, self.fix, self.xoffset)
-        self.minuteHand.draw(self.window, self.fix, self.xoffset)
-        self.hourHand.draw(self.window, self.fix, self.xoffset)
-        self.ticketonScreen.draw(self.window,self.fix, self.xoffset)
-        self.erroronScreen.draw(self.window,self.fix, self.xoffset)
-        self.goodstext.draw(self.window, self.fix, self.xoffset)
+        self.background.draw(self.screen)
+        self.clockOnScreen.draw(self.screen)
+        self.minuteHand.draw(self.screen)
+        self.hourHand.draw(self.screen)
+        self.ticketonScreen.draw(self.screen)
+        self.erroronScreen.draw(self.screen)
+        self.goodstext.draw(self.screen)
 
-        self.btn1.draw(self.window, self.fix, self.xoffset)
-        self.btn2.draw(self.window, self.fix, self.xoffset)
-        self.btn3.draw(self.window, self.fix, self.xoffset)
-        self.btn4.draw(self.window, self.fix, self.xoffset)
+        self.btn1.draw(self.screen)
+        self.btn2.draw(self.screen)
+        self.btn3.draw(self.screen)
+        self.btn4.draw(self.screen)
 
-        self.esbtn.draw(self.window, self.fix, self.xoffset)
-        self.enbtn.draw(self.window, self.fix, self.xoffset)
+        self.esbtn.draw(self.screen)
+        self.enbtn.draw(self.screen)
+
+        self.window.blit(pygame.transform.scale(self.screen, (constant.WIDTH*self.fix, constant.HEIGHT*self.fix)), (0 + self.xoffset,0))
 
     def return_angle_by_hour(self, hour, minutes):
         
@@ -261,10 +264,7 @@ class Game:
     
     def screenfix(self):
         self.fix = (self.window.get_height() / constant.HEIGHT)
-        self.fixx = (self.window.get_width() / constant.WIDTH)
         self.xoffset = (self.window.get_width() - (constant.WIDTH * self.fix)) / 2
-        self.current_width = self.window.get_width()
-        self.current_height = self.window.get_height()
         
 
 if __name__ == "__main__":
