@@ -8,6 +8,8 @@ def platform():
         return "linux"
     elif _sys_platform in ('win32', 'cygwin'):
         return 'win'
+    else:
+        return "else"
 
 def getPath():
     if platform()=="android":
