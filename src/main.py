@@ -11,7 +11,7 @@ pygame.init()
 class Game:
     def __init__(self) -> None:
 
-        self.window = pygame.display.set_mode((constant.WIDTH, constant.HEIGHT), pygame.RESIZABLE)
+        self.window = pygame.display.set_mode((constant.WIDTH, constant.HEIGHT), pygame.FULLSCREEN)
         self.screen = pygame.Surface((constant.WIDTH, constant.HEIGHT))
         pygame.display.set_caption("Game")
 

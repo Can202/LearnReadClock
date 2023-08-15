@@ -1,1 +1,3 @@
 src/__pycache__
+buildozer/bin
+buildozer/.buildozer

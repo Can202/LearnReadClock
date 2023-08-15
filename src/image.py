@@ -1,21 +1,26 @@
 import pygame
+import platformdetect
+path = platformdetect.getPath()
 
 pygame.font.init()
-BACKGROUND = pygame.image.load("img/back.png")
 
-CLOCK = pygame.image.load("img/clock.png")
 
-MINUTE = pygame.image.load("img/minute.png")
-HOUR = pygame.image.load("img/hour.png")
-BTN = pygame.image.load("img/btn.png")
-BTN_HOVER = pygame.image.load("img/btnhover.png")
-BTN_PRESSED = pygame.image.load("img/btnpressed.png")
 
-TICKET = pygame.image.load("img/ticket.png")
-ERROR = pygame.image.load("img/error.png")
+BACKGROUND = pygame.image.load(f"{path}img/back.png")
 
-ES = pygame.image.load("img/es.png")
-EN = pygame.image.load("img/en.png")
+CLOCK = pygame.image.load(f"{path}img/clock.png")
+
+MINUTE = pygame.image.load(f"{path}img/minute.png")
+HOUR = pygame.image.load(f"{path}img/hour.png")
+BTN = pygame.image.load(f"{path}img/btn.png")
+BTN_HOVER = pygame.image.load(f"{path}img/btnhover.png")
+BTN_PRESSED = pygame.image.load(f"{path}img/btnpressed.png")
+
+TICKET = pygame.image.load(f"{path}img/ticket.png")
+ERROR = pygame.image.load(f"{path}img/error.png")
+
+ES = pygame.image.load(f"{path}img/es.png")
+EN = pygame.image.load(f"{path}img/en.png")
 
 NORMAL_FONT = pygame.font.Font(None, 36)
 
