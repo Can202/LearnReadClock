@@ -344,7 +344,7 @@ class Menu:
         self.screen = pygame.Surface((constant.WIDTH, constant.HEIGHT))
 
         self.menuphoto = objects.Node(pygame.Vector2(300,20),
-                                      image.resize(image.MENU,int(922/1.4),int(615/1.4)))
+                                      image.MENU)
 
         self.background = objects.Background()
         self.playbtn = objects.Button(
