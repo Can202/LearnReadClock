@@ -171,7 +171,8 @@ class Hour:
         else:
             self.hour = _hour
             self.minutes = _minutes 
-    def getStrHour(self):
+    def getStrHour(self, language = "es"):
+        
         
         texth = str(self.hour).zfill(2)
         mid = ":"
@@ -179,45 +180,72 @@ class Hour:
         if self.minutes == 0:
             texth = str(self.hour)
             mid = ""
-            textm = " en punto"
-        elif self.minutes == 15:
-            texth = str(self.hour)
-            mid = ""
-            textm = " y un cuarto"
-        elif self.minutes == 30:
-            texth = str(self.hour)
-            mid = ""
-            textm = " y media"
-        elif self.minutes == 45:
-            texth = "15 minutos para "
-            if self.hour == 12:
-                mid = "la "
+            if language == "es":
+                textm = " en punto"
             else:
-                mid = "las "
+                textm = " o'clock"
+        elif self.minutes == 15:
+            if language == "es":
+                texth = str(self.hour)
+                mid = ""
+                textm = " y un cuarto"
+            else:
+                texth = "a quarter past "
+                mid = ""
+                textm = str(self.hour)
+
+        elif self.minutes == 30:
+            if language == "es":
+                texth = str(self.hour)
+                mid = ""
+                textm = " y media"
+            else:
+                texth = "half past "
+                mid = ""
+                textm = str(self.hour)
+                
+                
+        elif self.minutes == 45:
+            if language == "es":
+                texth = "un cuarto para "
+                if self.hour == 12:
+                    mid = "la "
+                else:
+                    mid = "las "
+            else:
+                texth = "a quarter to "
+                mid = ""
+            
             if self.hour == 12:
                 textm = "1"
             else:
                 textm = str(self.hour + 1)
         elif self.minutes == 50:
-            texth = "10 minutos para "
-            if self.hour == 12:
-                mid = "la "
+            if language == "es":
+                texth = "10 minutos para "
+                if self.hour == 12:
+                    mid = "la "
+                else:
+                    mid = "las "
+                if self.hour == 12:
+                    textm = "1"
+                else:
+                    textm = str(self.hour + 1)
             else:
-                mid = "las "
-            if self.hour == 12:
-                textm = "1"
-            else:
-                textm = str(self.hour + 1)
+                textm = str(self.minutes).zfill(2)
         elif self.minutes == 55:
-            texth = "5 minutos para "
-            if (self.hour) == 12:
-                mid = "la "
+            if language == "es":
+                texth = "5 minutos para "
+                if (self.hour) == 12:
+                    mid = "la "
+                else:
+                    mid = "las "
+                if self.hour == 12:
+                    textm = "1"
+                else:
+                    textm = str(self.hour + 1)
             else:
-                mid = "las "
-            if self.hour == 12:
-                textm = "1"
-            else:
-                textm = str(self.hour + 1)
+                textm = str(self.minutes).zfill(2)
         else:
             textm = str(self.minutes).zfill(2)
         return texth + mid + textm

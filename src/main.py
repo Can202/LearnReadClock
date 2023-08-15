@@ -29,7 +29,9 @@ class Game:
         self.mouseposX = 0
         self.mouseposY = 0
 
-        
+        self.language = "es"
+
+
         self.shuffle = True
         self.correctbtnnumber = random.randint(1,4)
         self.correctbtn = objects.Hour()
@@ -110,29 +112,29 @@ class Game:
 
 
         if self.correctbtnnumber == 1:
-            self.btn1.text.text = self.correctbtn.getStrHour()
+            self.btn1.text.text = self.correctbtn.getStrHour(self.language)
 
-            self.btn2.text.text = self.otherbtn1.getStrHour()
-            self.btn3.text.text = self.otherbtn2.getStrHour()
-            self.btn4.text.text = self.otherbtn3.getStrHour()
+            self.btn2.text.text = self.otherbtn1.getStrHour(self.language)
+            self.btn3.text.text = self.otherbtn2.getStrHour(self.language)
+            self.btn4.text.text = self.otherbtn3.getStrHour(self.language)
         elif self.correctbtnnumber == 2:
-            self.btn2.text.text = self.correctbtn.getStrHour()
+            self.btn2.text.text = self.correctbtn.getStrHour(self.language)
 
-            self.btn1.text.text = self.otherbtn1.getStrHour()
-            self.btn3.text.text = self.otherbtn2.getStrHour()
-            self.btn4.text.text = self.otherbtn3.getStrHour()
+            self.btn1.text.text = self.otherbtn1.getStrHour(self.language)
+            self.btn3.text.text = self.otherbtn2.getStrHour(self.language)
+            self.btn4.text.text = self.otherbtn3.getStrHour(self.language)
         elif self.correctbtnnumber == 3:
-            self.btn3.text.text = self.correctbtn.getStrHour()
+            self.btn3.text.text = self.correctbtn.getStrHour(self.language)
 
-            self.btn1.text.text = self.otherbtn1.getStrHour()
-            self.btn2.text.text = self.otherbtn2.getStrHour()
-            self.btn4.text.text = self.otherbtn3.getStrHour()
+            self.btn1.text.text = self.otherbtn1.getStrHour(self.language)
+            self.btn2.text.text = self.otherbtn2.getStrHour(self.language)
+            self.btn4.text.text = self.otherbtn3.getStrHour(self.language)
         elif self.correctbtnnumber == 4:
-            self.btn4.text.text = self.correctbtn.getStrHour()
+            self.btn4.text.text = self.correctbtn.getStrHour(self.language)
 
-            self.btn1.text.text = self.otherbtn1.getStrHour()
-            self.btn2.text.text = self.otherbtn2.getStrHour()
-            self.btn3.text.text = self.otherbtn3.getStrHour()
+            self.btn1.text.text = self.otherbtn1.getStrHour(self.language)
+            self.btn2.text.text = self.otherbtn2.getStrHour(self.language)
+            self.btn3.text.text = self.otherbtn3.getStrHour(self.language)
 
         self.return_angle_by_hour(self.correctbtn.hour, self.correctbtn.minutes)
 
@@ -148,7 +150,16 @@ class Game:
         self.btn2.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.xoffset)
         self.btn3.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.xoffset)
         self.btn4.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.xoffset)
+        
+        self.esbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.xoffset)
+        self.enbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.xoffset)
 
+        if self.esbtn.get_pressed:
+            self.language = "es"
+            self.esbtn.get_pressed = False
+        if self.enbtn.get_pressed:
+            self.language = "en"
+            self.enbtn.get_pressed = False
         if self.btn1.get_pressed:
             if self.timegood.time == 0:
                 if self.correctbtnnumber == 1:
