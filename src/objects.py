@@ -65,14 +65,14 @@ class Button(Node):
         self.image_hover = _imagehover
         self.image_pressed = _imagepressed
     
-    def update(self, deltaTime, mousepressed = False, mouseposX = 0, mouseposY = 0, fix=1, offset=0):
+    def update(self, deltaTime, mousepressed = False, mouseposX = 0, mouseposY = 0, fix=1, offset=pygame.Vector2(0,0)):
         super().update(deltaTime)
         self.rect = self.image.get_rect()
         self.rect.left += self.position.x
         self.rect.top += self.position.y
         mpx,mpy = pygame.mouse.get_pos()
-        mouse_position_X = (mpx - offset) / fix
-        mouse_position_Y =  mpy / fix
+        mouse_position_X = (mpx - offset.x) / fix
+        mouse_position_Y =  (mpy - offset.y) / fix
         if (self.rect.left < mouse_position_X < self.rect.right) and (self.rect.top < mouse_position_Y < self.rect.bottom):
             self.image = self.image_hover
             if mousepressed:

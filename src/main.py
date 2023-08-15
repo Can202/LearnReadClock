@@ -68,6 +68,7 @@ class Game:
         self.deltaTime = 0
 
         self.xoffset = 0
+        self.offset = pygame.Vector2(0, 0)
         self.fix = 1
         self.mousepressed = False
     def mainloop(self):
@@ -145,13 +146,13 @@ class Game:
         self.hourHand.update(self.deltaTime)
         self.goodstext.text = str(self.goods)
 
-        self.btn1.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.xoffset)
-        self.btn2.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.xoffset)
-        self.btn3.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.xoffset)
-        self.btn4.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.xoffset)
+        self.btn1.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
+        self.btn2.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
+        self.btn3.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
+        self.btn4.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
         
-        self.esbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.xoffset)
-        self.enbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.xoffset)
+        self.esbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
+        self.enbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
 
         if self.esbtn.get_pressed:
             self.language = "es"
@@ -246,7 +247,7 @@ class Game:
         self.esbtn.draw(self.screen)
         self.enbtn.draw(self.screen)
 
-        self.window.blit(pygame.transform.scale(self.screen, (constant.WIDTH*self.fix, constant.HEIGHT*self.fix)), (0 + self.xoffset,0))
+        self.window.blit(pygame.transform.scale(self.screen, (constant.WIDTH*self.fix, constant.HEIGHT*self.fix)), self.offset)
 
     def return_angle_by_hour(self, hour, minutes):
         
@@ -261,8 +262,17 @@ class Game:
 
     
     def screenfix(self):
-        self.fix = (self.window.get_height() / constant.HEIGHT)
-        self.xoffset = (self.window.get_width() - (constant.WIDTH * self.fix)) / 2
+        height = self.window.get_height()
+        width = self.window.get_width()
+        if (height / 9) <= (width/16):
+            self.fix = (height / constant.HEIGHT)
+            self.offset.x = (width - (constant.WIDTH * self.fix)) / 2
+            self.offset.y = 0
+        else:
+            self.fix = (width / constant.WIDTH)
+            self.offset.x = 0
+            self.offset.y = (height - (constant.HEIGHT * self.fix)) / 2
+
         
 
 if __name__ == "__main__":
