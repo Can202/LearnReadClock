@@ -14,7 +14,12 @@ BTN_PRESSED = pygame.image.load("img/btnpressed.png")
 TICKET = pygame.image.load("img/ticket.png")
 ERROR = pygame.image.load("img/error.png")
 
+ES = pygame.image.load("img/es.png")
+EN = pygame.image.load("img/en.png")
+
 NORMAL_FONT = pygame.font.Font(None, 36)
+
+
 
 
 def resize(image, width, height):

@@ -16,12 +16,12 @@ class Node:
     def update(self, deltaTime):
         self.velocity += self.acceleration * deltaTime
         self.position += self.velocity * deltaTime
-    def draw(self, screen, fix:float = 1.0):
+    def draw(self, screen, fix:float = 1.0, xoffset = 0):
         if fix == 1:
             screen.blit(self.image, self.position)
         else:
             self.timage = image.resize(self.image, int(self.image.get_width() * fix), int(self.image.get_height() * fix))
-            screen.blit(self.timage, self.position * fix)    
+            screen.blit(self.timage, (self.position * fix) + pygame.Vector2(xoffset, 0))    
 
 class Hand(Node):
     def __init__(self, _position=pygame.Vector2(0, 0), _image=image.CLOCK, _size = 0, _rotspeed = 45) -> None:
@@ -53,44 +53,51 @@ class Hand(Node):
             self.offset.x = (self.position.x - self.rotated_rect.left) - self.size
         else:
             self.rotation = 0
-    def draw(self, screen, fix:float = 1.0):
+    def draw(self, screen, fix:float = 1.0, xoffset = 0):
         if fix == 1:
             screen.blit(self.image, self.rotated_rect.topleft + self.offset)
         else:
             self.timage = image.resize(self.image, int(self.image.get_width() * fix), int(self.image.get_height() * fix))
-            screen.blit(self.timage, (self.rotated_rect.topleft + self.offset) * fix)  
+            screen.blit(self.timage, ((self.rotated_rect.topleft + self.offset) * fix) + pygame.Vector2(xoffset, 0))    
         
 class Button(Node):
     def __init__(self,
                  _position=pygame.Vector2(0, 0),
                  _image=image.BTN,
-                 _text = "no text given") -> None:
+                 _text = "no text given",
+                 _imagehover=image.BTN_HOVER,
+                 _imagepressed=image.BTN_PRESSED) -> None:
         super().__init__(_position, _image)
-        self.text = Text(_text, _position + pygame.Vector2(30,50))
+        self.text = Text(_text, _position + pygame.Vector2(25,56))
         self.get_pressed = False
+        self.normal_image = self.image
+        self.image_hover = _imagehover
+        self.image_pressed = _imagepressed
     
-    def update(self, deltaTime, mousepressed = False, mouseposX = 0, mouseposY = 0):
+    def update(self, deltaTime, mousepressed = False, mouseposX = 0, mouseposY = 0, fix=1, offset=0):
         super().update(deltaTime)
         self.rect = self.image.get_rect()
         self.rect.left += self.position.x
         self.rect.top += self.position.y
-        mouse_position_X, mouse_position_Y = pygame.mouse.get_pos()
+        mpx,mpy = pygame.mouse.get_pos()
+        mouse_position_X = (mpx - offset) / fix
+        mouse_position_Y =  mpy / fix
         if (self.rect.left < mouse_position_X < self.rect.right) and (self.rect.top < mouse_position_Y < self.rect.bottom):
-            self.image = image.BTN_HOVER
+            self.image = self.image_hover
             if mousepressed:
-                self.image = image.BTN_PRESSED
+                self.image = self.image_pressed
                 self.get_pressed = True
         elif (self.rect.left < mouseposX < self.rect.right) and (self.rect.top < mouseposY < self.rect.bottom):
-            self.image = image.BTN_HOVER
+            self.image = self.image_hover
             if mousepressed:
-                self.image = image.BTN_PRESSED
+                self.image = self.image_pressed
                 self.get_pressed = True
         else:
-            self.image = image.BTN
+            self.image = self.normal_image
     
-    def draw(self, screen, fix: float = 1):
-        super().draw(screen, fix)
-        self.text.draw(screen,fix)
+    def draw(self, screen, fix: float = 1, xoffset = 0):
+        super().draw(screen, fix, xoffset)
+        self.text.draw(screen,fix, xoffset)
 
 class Text():
     def __init__(self, 
@@ -102,14 +109,15 @@ class Text():
         self.font = image.NORMAL_FONT
         self.color = _color
 
-    def draw(self, screen, fix: float = 1):
+    def draw(self, screen, fix: float = 1, xoffset = 0):
         if fix == 1:
             text_surface = self.font.render(self.text, True, self.color)
             screen.blit(text_surface, self.position)
         else:
             self.font = pygame.font.Font(None, int(36*fix))
             text_surface = self.font.render(self.text, True, self.color)
-            screen.blit(text_surface, (self.position * fix))
+            screen.blit(text_surface, ((self.position * fix) + pygame.Vector2(xoffset, 0)))
+            
 
 
 class Background(Node):
