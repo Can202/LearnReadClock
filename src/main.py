@@ -343,9 +343,12 @@ class Menu:
         
         self.screen = pygame.Surface((constant.WIDTH, constant.HEIGHT))
 
+        self.menuphoto = objects.Node(pygame.Vector2(300,20),
+                                      image.resize(image.MENU,int(922/1.4),int(615/1.4)))
+
         self.background = objects.Background()
         self.playbtn = objects.Button(
-            pygame.Vector2((constant.WIDTH-310)/2, (constant.HEIGHT+200)/2),
+            pygame.Vector2((constant.WIDTH-310)/2, (constant.HEIGHT+300)/2),
             _text="        touch to play")
         
         self.quitbtn = objects.Button(pygame.Vector2(55,70),
@@ -373,6 +376,7 @@ class Menu:
 
     def draw(self):
         self.background.draw(self.screen)
+        self.menuphoto.draw(self.screen)
         self.playbtn.draw(self.screen)
         self.quitbtn.draw(self.screen)
 
