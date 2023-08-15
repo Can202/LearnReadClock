@@ -47,7 +47,7 @@ class Game:
 
         self.goods = 0
         self.goodstext = objects.Text(str(self.goods),
-                                      pygame.Vector2(constant.WIDTH-20,10),
+                                      pygame.Vector2(constant.WIDTH-50,10),
                                       constant.GREEN)
         self.good = 0
         self.timegood = objects.Timer(2)
@@ -241,7 +241,7 @@ class Game:
         self.hourHand.rotation = 360 - ((30 * hour) + (minutes * (30 / 60)))
 
         if hour == 12:
-            self.hourHand.rotation = 0
+            self.hourHand.rotation = 360 -(minutes * (30 / 60))
 
         if minutes == 0:
             minutes = 60
