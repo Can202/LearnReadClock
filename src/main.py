@@ -247,7 +247,9 @@ class Game:
         self.esbtn.draw(self.screen)
         self.enbtn.draw(self.screen)
 
-        self.window.blit(pygame.transform.scale(self.screen, (constant.WIDTH*self.fix, constant.HEIGHT*self.fix)), self.offset)
+        self.window.blit(pygame.transform.scale(
+            self.screen, (int(constant.WIDTH*self.fix), int(constant.HEIGHT*self.fix))), 
+            self.offset)
 
     def return_angle_by_hour(self, hour, minutes):
         
