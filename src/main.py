@@ -193,9 +193,9 @@ class Game:
 
         if self.ticketanimation:
             if self.timegood.time < .5:
-                self.ticketonScreen.position.y -= (constant.HEIGHT + image.TICKET.get_height()) * self.deltaTime
+                self.ticketonScreen.position.y -= (constant.HEIGHT + image.TICKET.get_height()/self.fix) * self.deltaTime
             if self.timegood.time > 1.5:
-                self.ticketonScreen.position.y += (constant.HEIGHT + image.TICKET.get_height()) * self.deltaTime
+                self.ticketonScreen.position.y += (constant.HEIGHT + image.TICKET.get_height()/self.fix) * self.deltaTime
         
         if self.erroranimation:
             if self.timegood.time < .5:
