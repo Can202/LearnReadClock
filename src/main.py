@@ -32,6 +32,7 @@ class Game:
         self.mainMenu = Menu()
 
         self.sound_channel = pygame.mixer.Channel(2)
+        self.musicallowed = True
 
 
 
@@ -54,8 +55,13 @@ class Game:
                     self.mousepressed = False
             self.keys = pygame.key.get_pressed()
 
-            if self.sound_channel.get_busy() == False:
+            if self.sound_channel.get_busy() == False and self.musicallowed:
                 self.sound_channel.play(sound.SONG)
+            
+            if self.musicallowed == False:
+                self.sound_channel.stop()
+
+            
                 
             if self.mainGame.running:
                 self.mainGame.mainloop(self.fix, self.offset,
