@@ -28,7 +28,8 @@ class Game:
         self.fix = 1
         self.mousepressed = False
 
-        self.mainGame = GameLogic()
+        self.mainGame = GameLogic(False)
+        self.mainMenu = Menu()
 
 
 
@@ -55,6 +56,28 @@ class Game:
                                     self.deltaTime,
                                     self.mouseposX, self.mouseposY,
                                     self.mousepressed)
+            if self.mainMenu.running:
+                self.mainMenu.mainloop(self.fix, self.offset,
+                                    self.deltaTime,
+                                    self.mouseposX, self.mouseposY,
+                                    self.mousepressed)
+            
+            if self.mainMenu.playbtn.get_pressed:
+                self.mainMenu.playbtn.get_pressed = False
+                self.mainMenu.running = False
+                self.mainGame.running = True
+                self.mainGame.goods = 0
+            elif self.mainGame.quitbtn.get_pressed:
+                self.mainGame.quitbtn.get_pressed = False
+                self.mainGame.goods = 0
+                self.mainMenu.running = True
+                self.mainGame.running = False
+                self.mainMenu.quitTime.timing = True
+            elif self.mainMenu.quitbtn.get_pressed:
+                if self.mainMenu.quitTime.timing == False:
+                    self.running = False
+                self.mainMenu.quitbtn.get_pressed = False
+
 
             self.screenfix()
             self.deltaTime = self.clock.tick(60) / 1000.0
@@ -64,6 +87,10 @@ class Game:
             if self.mainGame.running:
                 self.window.blit(pygame.transform.scale(
                     self.mainGame.screen, (int(constant.WIDTH*self.fix), int(constant.HEIGHT*self.fix))), 
+                    self.offset)
+            if self.mainMenu.running:
+                self.window.blit(pygame.transform.scale(
+                    self.mainMenu.screen, (int(constant.WIDTH*self.fix), int(constant.HEIGHT*self.fix))), 
                     self.offset)
 
             pygame.display.update()
@@ -81,9 +108,9 @@ class Game:
             self.offset.y = (height - (constant.HEIGHT * self.fix)) / 2
 
 class GameLogic:
-    def __init__(self) -> None:
+    def __init__(self, _running=True) -> None:
 
-        self.running = True
+        self.running = _running
         
         self.screen = pygame.Surface((constant.WIDTH, constant.HEIGHT))
 
@@ -109,12 +136,15 @@ class GameLogic:
         self.otherbtn3 = objects.Hour() 
 
         self.language = "es"
-        self.esbtn = objects.Button(pygame.Vector2(35,65),
+        self.esbtn = objects.Button(pygame.Vector2(130,65),
                                     image.ES, "",
                                     image.ES, image.ES)
-        self.enbtn = objects.Button(pygame.Vector2(130,65),
+        self.enbtn = objects.Button(pygame.Vector2(225,65),
                                     image.EN, "",
                                     image.EN, image.EN)
+        self.quitbtn = objects.Button(pygame.Vector2(55,70),
+                                    image.resize(image.ERROR,40,40), "",
+                                    image.resize(image.ERROR,40,40),image.resize(image.ERROR,40,40))
         
 
         self.goods = 0
@@ -207,6 +237,7 @@ class GameLogic:
         
         self.esbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
         self.enbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
+        self.quitbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
 
         if self.esbtn.get_pressed:
             self.language = "es"
@@ -292,6 +323,7 @@ class GameLogic:
 
         self.esbtn.draw(self.screen)
         self.enbtn.draw(self.screen)
+        self.quitbtn.draw(self.screen)
 
     def return_angle_by_hour(self, hour, minutes):
         
@@ -304,6 +336,45 @@ class GameLogic:
             minutes = 60
         self.minuteHand.rotation = 360 - (30 * (minutes / 5))
         
+class Menu:
+    def __init__(self, _running = True) -> None:
+        
+        self.running = _running
+        
+        self.screen = pygame.Surface((constant.WIDTH, constant.HEIGHT))
+
+        self.background = objects.Background()
+        self.playbtn = objects.Button(
+            pygame.Vector2((constant.WIDTH-310)/2, (constant.HEIGHT+200)/2),
+            _text="        touch to play")
+        
+        self.quitbtn = objects.Button(pygame.Vector2(55,70),
+                                    image.resize(image.ERROR,40,40), "",
+                                    image.resize(image.ERROR,40,40),image.resize(image.ERROR,40,40))
+        self.quitTime = objects.Timer(1)
+    def mainloop(self, _fix, _offset, _dt, _mpx, _mpy, _mp):
+
+        self.fix = _fix
+        self.offset = _offset
+        self.deltaTime = _dt
+        self.mouseposX = _mpx
+        self.mouseposY = _mpy
+
+        self.mousepressed = _mp 
+
+        self.update()
+        self.draw()
+    
+    def update(self):
+        self.background.update(self.deltaTime)
+        self.quitTime.update(self.deltaTime)
+        self.playbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
+        self.quitbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
+
+    def draw(self):
+        self.background.draw(self.screen)
+        self.playbtn.draw(self.screen)
+        self.quitbtn.draw(self.screen)
 
 if __name__ == "__main__":
     game = Game()
