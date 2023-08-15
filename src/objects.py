@@ -156,9 +156,13 @@ class Hour:
         self.minutes = _minutes = random.randint(0,11) * 5
     def getTuple(self):
         return (self.hour, self.minutes)
-    def newSet(self):
-        self.hour = random.randint(1,12)
-        self.minutes = _minutes = random.randint(0,11) * 5
+    def newSet(self, rrandom = True, _hour = 2, _minutes=30):
+        if rrandom:
+            self.hour = random.randint(1,12)
+            self.minutes = _minutes = random.randint(0,11) * 5
+        else:
+            self.hour = _hour
+            self.minutes = _minutes 
     def getStrHour(self):
         
         texth = str(self.hour).zfill(2)

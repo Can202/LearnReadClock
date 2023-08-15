@@ -3,6 +3,7 @@ import constant
 import image
 import objects
 import random
+import sound
 
 
 pygame.init()
@@ -169,12 +170,14 @@ class Game:
             self.btn4.get_pressed = False
         
         if self.good == 1:
+            sound.GOOD.play()
             self.shuffle = True
             self.timegood.timing = True
             self.goods += 1
             self.good = 0
             self.ticketanimation = True
         elif self.good == -1:
+            sound.BAD.play()
             self.timegood.timing = True
             self.good = 0
             self.erroranimation = True
@@ -222,10 +225,11 @@ class Game:
         self.btn4.draw(self.window, self.fix)
 
     def return_angle_by_hour(self, hour, minutes):
-        if hour == 12:
-            hour = 0
         
         self.hourHand.rotation = 360 - ((30 * hour) + (minutes * (30 / 60)))
+
+        if hour == 12:
+            self.hourHand.rotation = 0
 
         if minutes == 0:
             minutes = 60
