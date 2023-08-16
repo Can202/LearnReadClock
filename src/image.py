@@ -24,6 +24,9 @@ MENU = pygame.image.load(f"{path}img/menu.png")
 ES = pygame.image.load(f"{path}img/es.png")
 EN = pygame.image.load(f"{path}img/en.png")
 
+HARDMODE = pygame.image.load(f"{path}img/hard.png")
+MUSICMODE = pygame.image.load(f"{path}img/music.png")
+
 NORMAL_FONT = pygame.font.Font(None, 36)
 
 

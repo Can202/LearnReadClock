@@ -33,6 +33,7 @@ class Game:
 
         self.sound_channel = pygame.mixer.Channel(2)
         self.musicallowed = True
+        self.hardmode = False
 
 
 
@@ -67,7 +68,7 @@ class Game:
                 self.mainGame.mainloop(self.fix, self.offset,
                                     self.deltaTime,
                                     self.mouseposX, self.mouseposY,
-                                    self.mousepressed)
+                                    self.mousepressed, self.hardmode)
             if self.mainMenu.running:
                 self.mainMenu.mainloop(self.fix, self.offset,
                                     self.deltaTime,
@@ -89,6 +90,28 @@ class Game:
                 if self.mainMenu.quitTime.timing == False:
                     self.running = False
                 self.mainMenu.quitbtn.get_pressed = False
+
+            
+            if self.mainMenu.hardbtn.get_pressed:
+                self.mainMenu.hardbtn.get_pressed = False
+                if self.mainMenu.hardbtntime.timing == False:
+                    self.mainMenu.hardbtntime.timing = True
+                    if self.hardmode:
+                        self.hardmode = False
+                        self.mainMenu.hardmode.image = image.resize(image.ERROR,40,40)
+                    else:
+                        self.hardmode = True
+                        self.mainMenu.hardmode.image = image.resize(image.TICKET,40,40)
+            if self.mainMenu.musicbtn.get_pressed:
+                self.mainMenu.musicbtn.get_pressed = False
+                if self.mainMenu.musicbtntime.timing == False:
+                    self.mainMenu.musicbtntime.timing = True
+                    if self.musicallowed:
+                        self.musicallowed = False
+                        self.mainMenu.musicmode.image = image.resize(image.ERROR,40,40)
+                    else:
+                        self.musicallowed = True
+                        self.mainMenu.musicmode.image = image.resize(image.TICKET,40,40)
 
 
             self.screenfix()
@@ -175,7 +198,7 @@ class GameLogic:
             image.ERROR)
         self.erroranimation = False
 
-    def mainloop(self, _fix, _offset, _dt, _mpx, _mpy, _mp):
+    def mainloop(self, _fix, _offset, _dt, _mpx, _mpy, _mp, _hm):
 
         self.fix = _fix
         self.offset = _offset
@@ -184,6 +207,7 @@ class GameLogic:
         self.mouseposY = _mpy
 
         self.mousepressed = _mp 
+        self.hardmode = _hm
 
         self.update()
         self.draw()
@@ -294,6 +318,8 @@ class GameLogic:
             self.good = 0
             self.ticketanimation = True
         elif self.good == -1:
+            if self.hardmode:
+                self.goods = 0
             sound.BAD.play()
             self.timegood.timing = True
             self.good = 0
@@ -367,6 +393,18 @@ class Menu:
                                     image.resize(image.ERROR,40,40), "",
                                     image.resize(image.ERROR,40,40),image.resize(image.ERROR,40,40))
         self.quitTime = objects.Timer(1)
+
+
+        self.musicbtn = objects.Button(pygame.Vector2(1170,70),
+                                    image.resize(image.MUSICMODE,80,80), "",
+                                    image.resize(image.MUSICMODE,80,80),image.resize(image.MUSICMODE,80,80))
+        self.hardbtn = objects.Button(pygame.Vector2(1170,180),
+                                    image.resize(image.HARDMODE,80,80), "",
+                                    image.resize(image.HARDMODE,80,80),image.resize(image.HARDMODE,80,80))
+        self.musicmode = objects.Node(pygame.Vector2(1120,90),image.resize(image.TICKET,40,40))
+        self.hardmode = objects.Node(pygame.Vector2(1120,200),image.resize(image.ERROR,40,40))
+        self.musicbtntime = objects.Timer(.3)
+        self.hardbtntime = objects.Timer(.3)
     def mainloop(self, _fix, _offset, _dt, _mpx, _mpy, _mp):
 
         self.fix = _fix
@@ -385,12 +423,20 @@ class Menu:
         self.quitTime.update(self.deltaTime)
         self.playbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
         self.quitbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
+        self.hardbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
+        self.musicbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
+        self.musicbtntime.update(self.deltaTime)
+        self.hardbtntime.update(self.deltaTime)
 
     def draw(self):
         self.background.draw(self.screen)
         self.menuphoto.draw(self.screen)
         self.playbtn.draw(self.screen)
         self.quitbtn.draw(self.screen)
+        self.musicbtn.draw(self.screen)
+        self.hardbtn.draw(self.screen)
+        self.musicmode.draw(self.screen)
+        self.hardmode.draw(self.screen)
 
 if __name__ == "__main__":
     game = Game()
