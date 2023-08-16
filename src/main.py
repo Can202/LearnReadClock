@@ -186,6 +186,7 @@ class GameLogic:
         self.goodstext = objects.Text(str(self.goods),
                                       pygame.Vector2(constant.WIDTH-50,10),
                                       constant.GREEN)
+        self.goodsblank = objects.Node(pygame.Vector2(constant.WIDTH-65,2), image.resize(image.BLANK, 60, 40))
         self.good = 0
         self.timegood = objects.Timer(2)
         self.ticketonScreen = objects.Node(
@@ -352,6 +353,7 @@ class GameLogic:
         self.hourHand.draw(self.screen)
         self.ticketonScreen.draw(self.screen)
         self.erroronScreen.draw(self.screen)
+        self.goodsblank.draw(self.screen)
         self.goodstext.draw(self.screen)
 
         self.btn1.draw(self.screen)
