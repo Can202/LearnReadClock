@@ -29,7 +29,7 @@ MUSICMODE = pygame.image.load(f"{path}img/music.png")
 BLANK = pygame.image.load(f"{path}img/blank.png")
 
 
-NORMAL_FONT = pygame.font.Font(None, 36)
+NORMAL_FONT = pygame.font.Font(f"{path}font/DejaVuSans.ttf", 23)
 
 
 
