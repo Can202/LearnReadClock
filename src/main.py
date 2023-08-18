@@ -11,7 +11,7 @@ pygame.init()
 class Game:
     def __init__(self) -> None:
 
-        self.window = pygame.display.set_mode((constant.DEFINEWIDTH, constant.DEFINEHEIGHT), pygame.FULLSCREEN)
+        self.window = pygame.display.set_mode((constant.DEFINEWIDTH, constant.DEFINEHEIGHT), pygame.RESIZABLE)
         
         pygame.display.set_caption("Game")
 
@@ -20,6 +20,8 @@ class Game:
 
         self.mouseposX = 0
         self.mouseposY = 0
+        self.realmouseposX = 0
+        self.realmouseposY = 0
 
         self.deltaTime = 0
 
@@ -41,17 +43,22 @@ class Game:
 
     def mainloop(self):
         while self.running:
+            self.mousepressed = False
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.mousepressed = True
-                    self.mouseposX, self.mouseposY = event.pos
+                    self.realmouseposX, self.realmouseposY = event.pos
+                    self.mouseposX = (self.realmouseposX - self.offset.x) / self.fix
+                    self.mouseposY = (self.realmouseposY - self.offset.y) / self.fix
                     pygame.mouse.get_rel()
                 elif platformdetect.platform() != "android":
-                    self.mouseposX, self.mouseposY = pygame.mouse.get_pos()
-                if event.type == pygame.MOUSEBUTTONUP:
-                    self.mousepressed = False
+                    self.realmouseposX, self.realmouseposY = pygame.mouse.get_pos()
+                    self.mouseposX = (self.realmouseposX - self.offset.x) / self.fix
+                    self.mouseposY = (self.realmouseposY - self.offset.y) / self.fix
+                #if event.type == pygame.MOUSEBUTTONUP:
+                #    self.mousepressed = False
             self.keys = pygame.key.get_pressed()
 
             if self.sound_channel.get_busy() == False and self.musicallowed:
@@ -60,7 +67,7 @@ class Game:
             if self.musicallowed == False:
                 self.sound_channel.stop()
 
-            
+            print(self.mouseposX, self.mouseposY)
                 
             if self.mainGame.running:
                 self.mainGame.mainloop(self.fix, self.offset,
@@ -392,7 +399,7 @@ class Menu:
         self.quitbtn = objects.Button(pygame.Vector2(55,70),
                                     image.resize(image.ERROR,40,40), "",
                                     image.resize(image.ERROR,40,40),image.resize(image.ERROR,40,40))
-        self.quitTime = objects.Timer(1)
+        self.quitTime = objects.Timer(.3)
 
 
         self.musicbtn = objects.Button(pygame.Vector2(1170,70),

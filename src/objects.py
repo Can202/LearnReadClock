@@ -70,9 +70,7 @@ class Button(Node):
         self.rect = self.image.get_rect()
         self.rect.left += self.position.x
         self.rect.top += self.position.y
-        mpx,mpy = mouseposX, mouseposY
-        mouse_position_X = (mpx - offset.x) / fix
-        mouse_position_Y =  (mpy - offset.y) / fix
+        mouse_position_X,mouse_position_Y = mouseposX, mouseposY
         if (self.rect.left < mouse_position_X < self.rect.right) and (self.rect.top < mouse_position_Y < self.rect.bottom):
             if platformdetect.platform() != "android":
                 self.image = self.image_hover
