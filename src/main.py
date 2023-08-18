@@ -66,8 +66,6 @@ class Game:
             
             if self.musicallowed == False:
                 self.sound_channel.stop()
-
-            print(self.mouseposX, self.mouseposY)
                 
             if self.mainGame.running:
                 self.mainGame.mainloop(self.fix, self.offset,
