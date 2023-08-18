@@ -44,7 +44,7 @@ requirements =python3,pygame,jnius,sdl2,sdl2_image,sdl2_mixer,sdl2_ttf,png,jpeg
 # requirements.source.kivy = ../../kivy
 
 # (str) Presplash of the application
-presplash.filename = %(source.dir)s/img/back.png
+presplash.filename = %(source.dir)s/data/presplash.png
 
 # (str) Icon of the application
 icon.filename = %(source.dir)s/data/icon.png
