@@ -229,8 +229,14 @@ class GameLogic:
                 self.otherbtn1.newSet()
             while self.otherbtn2.getTuple() == self.correctbtn.getTuple():
                 self.otherbtn2.newSet()
+            while self.otherbtn2.getTuple() == self.otherbtn1.getTuple():
+                self.otherbtn2.newSet()
             while self.otherbtn3.getTuple() == self.correctbtn.getTuple():
                 self.otherbtn3.newSet()
+            while self.otherbtn3.getTuple() == self.otherbtn1.getTuple():
+                self.otherbtn2.newSet()
+            while self.otherbtn3.getTuple() == self.otherbtn2.getTuple():
+                self.otherbtn2.newSet()
             self.otherbtn2.newSet()
             self.otherbtn3.newSet()
             self.shuffle = False
