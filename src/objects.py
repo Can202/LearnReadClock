@@ -4,7 +4,7 @@ import image
 
 import math
 import random
-
+import platformdetect
 pygame.font.init()
 
 class Node:
@@ -70,21 +70,28 @@ class Button(Node):
         self.rect = self.image.get_rect()
         self.rect.left += self.position.x
         self.rect.top += self.position.y
-        mpx,mpy = pygame.mouse.get_pos()
+        mpx,mpy = mouseposX, mouseposY
         mouse_position_X = (mpx - offset.x) / fix
         mouse_position_Y =  (mpy - offset.y) / fix
         if (self.rect.left < mouse_position_X < self.rect.right) and (self.rect.top < mouse_position_Y < self.rect.bottom):
-            self.image = self.image_hover
+            if platformdetect.platform() != "android":
+                self.image = self.image_hover
+            else:
+                self.image = self.normal_image
             if mousepressed:
                 self.image = self.image_pressed
                 self.get_pressed = True
         elif (self.rect.left < mouseposX < self.rect.right) and (self.rect.top < mouseposY < self.rect.bottom):
-            self.image = self.image_hover
+            if platformdetect.platform() != "android":
+                self.image = self.image_hover
+            else:
+                self.image = self.normal_image
             if mousepressed:
                 self.image = self.image_pressed
                 self.get_pressed = True
         else:
             self.image = self.normal_image
+
     
     def draw(self, screen, fix: float = 1, xoffset = 0):
         super().draw(screen)

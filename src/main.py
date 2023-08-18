@@ -4,7 +4,7 @@ import image
 import objects
 import random
 import sound
-
+import platformdetect
 
 pygame.init()
 
@@ -44,15 +44,13 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-                if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.FINGERDOWN:
+                if event.type == pygame.MOUSEBUTTONDOWN:
                     self.mousepressed = True
-
-                    if event.type == pygame.FINGERDOWN:
-                        self.mouseposX = event.x * constant.WIDTH
-                        self.mouseposY = event.y * constant.HEIGHT
-                    else:
-                        self.mouseposX, self.mouseposY = (0, 0)
-                else:
+                    self.mouseposX, self.mouseposY = event.pos
+                    pygame.mouse.get_rel()
+                elif platformdetect.platform() != "android":
+                    self.mouseposX, self.mouseposY = pygame.mouse.get_pos()
+                if event.type == pygame.MOUSEBUTTONUP:
                     self.mousepressed = False
             self.keys = pygame.key.get_pressed()
 
