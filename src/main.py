@@ -337,15 +337,15 @@ class GameLogic:
 
         if self.ticketanimation:
             if self.timegood.time < .7:
-                self.ticketonScreen.position.y -= (constant.HEIGHT + 252) * self.deltaTime / 1.4
+                self.ticketonScreen.position.y -= 694 * self.deltaTime
             if self.timegood.time > 1.3:
-                self.ticketonScreen.position.y += (constant.HEIGHT + 252) * self.deltaTime / 1.4
+                self.ticketonScreen.position.y += 694 * self.deltaTime
         
         if self.erroranimation:
             if self.timegood.time < .7:
-                self.erroronScreen.position.y -= (constant.HEIGHT + 290) * self.deltaTime / 1.4
+                self.erroronScreen.position.y -= 721 * self.deltaTime
             if self.timegood.time > 1.3:
-                self.erroronScreen.position.y += (constant.HEIGHT + 290) * self.deltaTime / 1.4
+                self.erroronScreen.position.y += 721 * self.deltaTime
         if self.timegood.timing == False:
             self.ticketonScreen.position.y = constant.HEIGHT
             self.ticketanimation = False
