@@ -1,7 +1,7 @@
 [app]
 
 # (str) Title of your application
-title = ReadTime
+title = Read Time
 
 # (str) Package name
 package.name = readtime
