@@ -13,7 +13,7 @@ class Game:
 
         self.window = pygame.display.set_mode((constant.DEFINEWIDTH, constant.DEFINEHEIGHT), pygame.FULLSCREEN)
         
-        pygame.display.set_caption("Game")
+        pygame.display.set_caption("Read Time")
 
         self.clock = pygame.time.Clock()
         self.running = True
