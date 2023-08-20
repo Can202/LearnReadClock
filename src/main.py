@@ -115,7 +115,22 @@ class Game:
                     else:
                         self.musicallowed = True
                         self.mainMenu.musicmode.image = image.resize(image.TICKET,40,40)
-
+            if self.mainMenu.languagebtn.get_pressed:
+                self.mainMenu.languagebtn.get_pressed = False
+                if self.mainMenu.languagebtntime.timing == False:
+                    if self.mainGame.language == "en":
+                        self.mainGame.language = "es"
+                        self.mainMenu.languagebtn.image = image.ES
+                        self.mainMenu.languagebtn.get_pressed = image.ES
+                        self.mainMenu.languagebtn.image_hover = image.ES
+                        self.mainMenu.languagebtn.normal_image = image.ES
+                    elif self.mainGame.language == "es":
+                        self.mainGame.language = "en"
+                        self.mainMenu.languagebtn.image = image.EN
+                        self.mainMenu.languagebtn.get_pressed = image.EN
+                        self.mainMenu.languagebtn.image_hover = image.EN
+                        self.mainMenu.languagebtn.normal_image = image.EN
+                self.mainMenu.languagebtntime.timing = True
 
             self.screenfix()
             self.deltaTime = self.clock.tick(60) / 1000.0
@@ -174,12 +189,6 @@ class GameLogic:
         self.otherbtn3 = objects.Hour() 
 
         self.language = "es"
-        self.esbtn = objects.Button(pygame.Vector2(130,65),
-                                    image.ES, "",
-                                    image.ES, image.ES)
-        self.enbtn = objects.Button(pygame.Vector2(225,65),
-                                    image.EN, "",
-                                    image.EN, image.EN)
         self.quitbtn = objects.Button(pygame.Vector2(55,70),
                                     image.resize(image.ERROR,40,40), "",
                                     image.resize(image.ERROR,40,40),image.resize(image.ERROR,40,40))
@@ -281,16 +290,8 @@ class GameLogic:
         self.btn3.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
         self.btn4.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
         
-        self.esbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
-        self.enbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
         self.quitbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
 
-        if self.esbtn.get_pressed:
-            self.language = "es"
-            self.esbtn.get_pressed = False
-        if self.enbtn.get_pressed:
-            self.language = "en"
-            self.enbtn.get_pressed = False
         if self.btn1.get_pressed:
             if self.timegood.time == 0:
                 if self.correctbtnnumber == 1:
@@ -370,8 +371,6 @@ class GameLogic:
         self.btn3.draw(self.screen)
         self.btn4.draw(self.screen)
 
-        self.esbtn.draw(self.screen)
-        self.enbtn.draw(self.screen)
         self.quitbtn.draw(self.screen)
 
     def return_angle_by_hour(self, hour, minutes):
@@ -414,6 +413,13 @@ class Menu:
                                     image.resize(image.HARDMODE,80,80),image.resize(image.HARDMODE,80,80))
         self.musicmode = objects.Node(pygame.Vector2(1120,90),image.resize(image.TICKET,40,40))
         self.hardmode = objects.Node(pygame.Vector2(1120,200),image.resize(image.ERROR,40,40))
+
+        self.languagebtn = objects.Button(pygame.Vector2(1170,300),
+                                    image.EN, "",
+                                    image.EN,image.EN)
+        self.languagebtntime = objects.Timer(.3)
+        
+
         self.musicbtntime = objects.Timer(.3)
         self.hardbtntime = objects.Timer(.3)
     def mainloop(self, _fix, _offset, _dt, _mpx, _mpy, _mp):
@@ -436,6 +442,9 @@ class Menu:
         self.quitbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
         self.hardbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
         self.musicbtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
+        self.languagebtn.update(self.deltaTime, self.mousepressed, self.mouseposX, self.mouseposY, self.fix, self.offset)
+
+        self.languagebtntime.update(self.deltaTime)
         self.musicbtntime.update(self.deltaTime)
         self.hardbtntime.update(self.deltaTime)
 
@@ -448,6 +457,7 @@ class Menu:
         self.hardbtn.draw(self.screen)
         self.musicmode.draw(self.screen)
         self.hardmode.draw(self.screen)
+        self.languagebtn.draw(self.screen)
 
 if __name__ == "__main__":
     game = Game()
