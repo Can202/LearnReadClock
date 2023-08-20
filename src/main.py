@@ -188,7 +188,7 @@ class GameLogic:
         self.otherbtn2 = objects.Hour() 
         self.otherbtn3 = objects.Hour() 
 
-        self.language = "es"
+        self.language = "en"
         self.quitbtn = objects.Button(pygame.Vector2(55,70),
                                     image.resize(image.ERROR,40,40), "",
                                     image.resize(image.ERROR,40,40),image.resize(image.ERROR,40,40))
